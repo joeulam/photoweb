@@ -129,6 +129,7 @@ export default function PhotoForm({ collections, onSuccess, initialData, onCance
 
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
+      console.log(err)
       alert(msg);
     } finally {
       setUploading(false);
@@ -143,7 +144,7 @@ export default function PhotoForm({ collections, onSuccess, initialData, onCance
     <form onSubmit={handleSubmit} className="flex flex-col gap-8">
       
       <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-2">
-        <h2 className="text-xl font-bold tracking-tighter text-white">
+        <h2 className="text-l font-bold tracking-tighter text-white">
             {initialData ? `EDIT ASSET: #${initialData.id}` : "NEW UPLOAD"}
         </h2>
         {initialData && onCancel && (
