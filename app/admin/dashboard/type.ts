@@ -4,6 +4,7 @@ export type Collection = {
   description: string;
   location?: string;
   year?: string;
+  cover_image?: string;
 };
 
 export type Photo = {
