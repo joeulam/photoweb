@@ -8,6 +8,7 @@ import PhotoModal from "./components/PhotoModal";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import { Navbar } from "./components/NavBar";
+import { LensCursor } from "./components/LensCursor";
 
 type Photo = {
   id: number;
@@ -57,7 +58,7 @@ export default function Home() {
   }, [supabase]);
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-yellow-400 selection:text-black relative overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white selection:bg-yellow-400 selection:text-black relative overflow-x-hidden cursor-none">
       <FilmGrainOverlay />
 
       <div className="absolute inset-0 -z-10 pointer-events-none">
@@ -78,7 +79,7 @@ export default function Home() {
       </div>
 
       <Navbar currentPath={"/"} />
-
+      <LensCursor />
       <main className="container mx-auto max-w-7xl px-6 pb-24 pt-32 relative z-10">
         <header className="mb-24 flex flex-col gap-8 md:flex-row md:items-end md:justify-between border-b border-zinc-800/50 pb-12 backdrop-blur-sm">
           <motion.div
@@ -138,7 +139,7 @@ export default function Home() {
                 className={getGridClass(index)}
               >
                 <PhotoCard
-                  className="cursor-pointer"
+                  // className="cursor-pointer"
                   photo={photo}
                   onClick={() => setSelectedPhoto(photo)}
                 />
