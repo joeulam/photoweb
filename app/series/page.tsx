@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import NextImage from "next/image";
 import { motion } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
-import { Link as HeroLink } from "@heroui/react";
 import { Navbar } from "../components/NavBar";
 
 type Collection = {
@@ -13,6 +13,7 @@ type Collection = {
   location: string;
   year: string;
   description: string;
+  cover_image?: string; 
 };
 
 export default function WorkPage() {
@@ -75,26 +76,42 @@ export default function WorkPage() {
               >
                 <Link
                   href={`/series/${c.id}`}
-                  className="group h-75 border border-zinc-800 bg-zinc-900/50 p-8 flex flex-col justify-between hover:border-yellow-400 hover:bg-zinc-900 transition-all duration-300"
+                  className="group relative flex h-[450px] flex-col justify-between overflow-hidden border border-zinc-800 bg-zinc-900 transition-all duration-500 hover:border-yellow-400"
                 >
-                   <div className="flex justify-between items-start font-mono text-xs uppercase tracking-widest text-zinc-500">
-                      <span>{c.year}</span>
-                      <span>{c.location}</span>
-                   </div>
+                   {c.cover_image ? (
+                     <>
+                        <NextImage 
+                            src={c.cover_image} 
+                            alt={c.title}
+                            fill
+                            className="object-cover opacity-60 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-40"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
+                     </>
+                   ) : (
+                     <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
+                   )}
 
-                   <div>
-                      <h2 className="text-3xl font-bold text-white uppercase mb-2 group-hover:text-yellow-400 transition-colors">
-                        {c.title}
-                      </h2>
-                      <p className="text-zinc-500 text-sm line-clamp-2 font-light">
-                        {c.description}
-                      </p>
-                   </div>
+                   <div className="relative z-10 flex h-full flex-col justify-between p-8">
+                       <div className="flex justify-between items-start font-mono text-xs uppercase tracking-widest text-zinc-300 mix-blend-screen">
+                          <span>{c.year}</span>
+                          <span>{c.location}</span>
+                       </div>
 
-                   <div className="flex justify-end">
-                      <span className="text-xs uppercase tracking-widest text-yellow-400 opacity-0 -translate-x-2.5 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                        View Series →
-                      </span>
+                       <div>
+                          <h2 className="text-4xl font-bold text-white uppercase mb-3 leading-[0.9] tracking-tighter group-hover:text-yellow-400 transition-colors drop-shadow-lg">
+                            {c.title}
+                          </h2>
+                          <p className="text-zinc-300 text-sm line-clamp-2 font-light leading-relaxed text-shadow-sm">
+                            {c.description}
+                          </p>
+                       </div>
+
+                       <div className="flex justify-end">
+                          <span className="text-xs uppercase tracking-widest text-yellow-400 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                            View Series →
+                          </span>
+                       </div>
                    </div>
                 </Link>
               </motion.div>
