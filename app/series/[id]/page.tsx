@@ -15,6 +15,7 @@ type Photo = {
   collection_id: number;
   camera?: string;
   lens?: string;
+  iso?: string;
 };
 
 type Collection = {
@@ -23,6 +24,7 @@ type Collection = {
   location: string;
   year: string;
   description: string;
+  cover_image?: string;
 };
 
 export default function SeriesPage() {
@@ -37,7 +39,6 @@ export default function SeriesPage() {
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
-
       setLoading(true);
 
       const { data: collectionData, error: collectionError } = await supabase
@@ -47,7 +48,7 @@ export default function SeriesPage() {
         .single();
 
       if (collectionError || !collectionData) {
-        router.push("/404"); 
+        router.push("/404");
         return;
       }
 
@@ -60,109 +61,120 @@ export default function SeriesPage() {
         .order("created_at", { ascending: false });
 
       if (photoData) setPhotos(photoData);
-      
+
       setLoading(false);
     };
 
     fetchData();
   }, [id, router, supabase]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-white">
-        <span className="font-mono text-xs uppercase tracking-widest animate-pulse text-zinc-500">
-          Loading Series Data...
-        </span>
-      </div>
-    );
-  }
-
+  if (loading) return <div className="min-h-screen bg-black" />;
   if (!collection) return null;
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-yellow-400 selection:text-black">
-      
-      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.05] mix-blend-overlay">
-        <svg className="h-full w-full">
-          <filter id="noiseFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-        </svg>
-      </div>
+      {collection.cover_image && (
+        <div className="fixed inset-0 top-0 left-0 z-0 h-[80vh] w-full">
+          <NextImage
+            src={collection.cover_image}
+            alt="Cover"
+            fill
+            className="object-cover opacity-60"
+            priority
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black" />
+        </div>
+      )}
 
       <nav className="fixed top-0 z-50 flex w-full items-center justify-between px-6 py-6 mix-blend-difference">
-        <Link 
-          href="/" 
-          className="text-sm font-mono uppercase tracking-widest text-white hover:text-yellow-400 transition-colors"
+        <Link
+          href="/"
+          className="font-mono text-sm uppercase tracking-widest text-white transition-colors hover:text-yellow-400"
         >
           ← Return to Index
         </Link>
-        <div className="font-mono text-xs uppercase tracking-widest text-zinc-500">
-           Series No. {collection.id}
+        <div className="font-mono text-xs uppercase tracking-widest text-zinc-400">
+          Series No. {collection.id}
         </div>
       </nav>
 
-      <main className="container mx-auto max-w-7xl px-6 pt-32 pb-24 relative z-10">
-        
-        <motion.div 
+      <div className="relative z-10 flex flex-col">
+        <header className="flex min-h-[80vh] flex-col justify-end px-6 pb-24 pt-48 md:px-12">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="border-l-2 border-yellow-400 pl-6 mb-24"
-        >
-          <div className="flex gap-4 mb-2 font-mono text-xs uppercase tracking-widest text-zinc-500">
-            <span className="text-yellow-400">{collection.year}</span>
-            <span>{collection.location}</span>
-          </div>
-          <h1 className="text-6xl md:text-8xl font-bold uppercase tracking-tighter text-white mb-6">
-            {collection.title}
-          </h1>
-          <p className="max-w-2xl text-zinc-400 text-lg font-light leading-relaxed">
-            {collection.description}
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-          {photos.map((photo, index) => (
-            <motion.div
-              key={photo.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
-              className="group relative aspect-4/5 w-full bg-zinc-900 overflow-hidden">
-               <NextImage
-                 src={photo.src}
-                 alt={photo.title}
-                 fill
-                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                 sizes="(max-width: 768px) 100vw, 50vw"
-               />
-
-               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                 <h3 className="text-3xl font-bold tracking-tight">{photo.title}</h3>
-                 <div className="w-12 h-1 bg-yellow-400 my-4"></div>
-                 <div className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-widest text-zinc-300">
-                    <span>Camera: {photo.camera || "Unknown"}</span>
-                    <span>Lens: {photo.lens || "Unknown"}</span>
-                 </div>
-               </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {photos.length === 0 && (
-            <div className="py-32 border border-zinc-800 border-dashed flex flex-col items-center justify-center text-zinc-600">
-                <span className="font-mono text-xs uppercase tracking-widest mb-4">Archive Empty</span>
-                <p className="text-sm">No images have been assigned to this series yet.</p>
+            className="max-w-7xl mx-auto w-full"
+          >
+            <div className="mb-4 flex gap-4 font-mono text-xs uppercase tracking-widest text-zinc-300">
+              <span className="text-yellow-400">{collection.year}</span>
+              <span>{collection.location}</span>
             </div>
-        )}
 
-        <footer className="mt-32 pt-12 border-t border-zinc-900 flex justify-between text-zinc-600 text-xs uppercase tracking-widest">
-            <span>End of Series</span>
-            <span>JL.PHOTO</span>
-        </footer>
+            <h1 className="mb-8 text-6xl font-bold uppercase tracking-tighter text-white drop-shadow-2xl md:text-9xl md:leading-[0.85]">
+              {collection.title}
+            </h1>
 
-      </main>
+            <div className="max-w-xl border-l-2 border-yellow-400 pl-6 backdrop-blur-sm">
+              <p className="text-lg font-light leading-relaxed text-zinc-200 text-shadow-sm">
+                {collection.description}
+              </p>
+            </div>
+          </motion.div>
+        </header>
+
+        <main className="w-full bg-black px-6 pb-32 pt-24 md:px-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              {photos.map((photo, index) => (
+                <motion.div
+                  key={photo.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group relative aspect-[4/5] w-full overflow-hidden bg-zinc-900"
+                >
+                  <NextImage
+                    src={photo.src}
+                    alt={photo.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+
+                  <div className="absolute inset-0 flex flex-col justify-end bg-black/60 p-8 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <h3 className="text-3xl font-bold tracking-tight">
+                      {photo.title}
+                    </h3>
+                    <div className="my-4 h-1 w-12 bg-yellow-400"></div>
+                    <div className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-widest text-zinc-300">
+                      <span>Camera: {photo.camera || "Unknown"}</span>
+                      <span>Lens: {photo.lens || "Unknown"}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {photos.length === 0 && (
+              <div className="flex flex-col items-center justify-center border border-dashed border-zinc-800 py-32 text-zinc-600">
+                <span className="mb-4 font-mono text-xs uppercase tracking-widest">
+                  Archive Empty
+                </span>
+                <p className="text-sm">
+                  No images have been assigned to this series yet.
+                </p>
+              </div>
+            )}
+
+            <footer className="mt-32 flex justify-between border-t border-zinc-900 pt-12 text-xs uppercase tracking-widest text-zinc-600">
+              <span>End of Series</span>
+              <span>JL.PHOTO</span>
+            </footer>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

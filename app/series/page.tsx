@@ -55,7 +55,7 @@ export default function WorkPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-6xl md:text-8xl font-bold leading-none tracking-tighter"
           >
-            PROJECT <br />
+            SERIES <br />
             <span className="text-zinc-600">INDEX.</span>
           </motion.h1>
         </header>
