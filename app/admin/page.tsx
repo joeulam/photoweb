@@ -35,7 +35,7 @@ export default function AdminLogin() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-black text-white selection:bg-yellow-400 selection:text-black relative">
       
       <div className="fixed top-8 left-8 z-50">
-        <span className="font-bold tracking-tighter text-lg">STUDIO<span className="text-yellow-400">.ADMIN</span></span>
+        <span className="font-bold tracking-tighter text-lg">JL<span className="text-yellow-400">.ADMIN</span></span>
       </div>
 
       <div className="fixed top-8 right-8 z-50">
