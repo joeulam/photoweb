@@ -11,6 +11,8 @@
   "dependencies": {
     "@heroui/react": "^3.0.0-beta.3",
     "@heroui/styles": "^3.0.0-beta.3",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.90.1",
     "framer-motion": "^12.25.0",
     "next": "16.1.1",
     "react": "19.2.3",
