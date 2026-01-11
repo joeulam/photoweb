@@ -7,6 +7,7 @@ import PhotoCard from "./components/PhotoCard";
 import PhotoModal from "./components/PhotoModal";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
+import { Navbar } from "./components/NavBar";
 
 type Photo = {
   id: number;
@@ -72,13 +73,8 @@ export default function Home() {
         />
       </div>
 
-      <nav className="fixed top-0 z-50 flex w-full items-center justify-between px-6 py-6 mix-blend-difference">
-        <div className="text-xl font-bold tracking-tighter">JL<span className="text-yellow-400">.PHOTO</span></div>
-        <div className="flex gap-6 text-sm font-mono uppercase tracking-widest">
-          <HeroLink href="/series" className="text-white hover:text-yellow-400 transition-colors">Series</HeroLink>
-          <HeroLink href="/admin" className="text-zinc-500 hover:text-white transition-colors">Admin</HeroLink>
-        </div>
-      </nav>
+      <Navbar currentPath={"/"}/>
+      
 
       <main className="container mx-auto max-w-7xl px-6 pb-24 pt-32 relative z-10">
         
