@@ -21,6 +21,14 @@ export function Navbar({currentPath}:{currentPath:string}) {
           Series
         </HeroLink>
         <HeroLink
+          href="/about-me"
+          className={`${
+            currentPath === "/about-me" ? "text-yellow-400" : "text-zinc-500"
+          } hover:text-yellow-400 transition-colors`}
+        >
+          About Me
+        </HeroLink>
+        <HeroLink
           href="/admin"
           className={`${
             currentPath === "/admin" ? "text-yellow-400" : "text-zinc-500"
