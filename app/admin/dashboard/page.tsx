@@ -10,6 +10,7 @@ import { Photo, Collection } from "./type";
 import PhotoForm from "./components/UploadForm";
 import { SeriesInventory } from "./components/SeriesInventory";
 import { PhotoInventory } from "./components/PhotoInventory";
+import { GridPattern } from "@/components/ui/grid-pattern";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -102,6 +103,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-yellow-400 selection:text-black font-sans">
+
       <nav className="fixed top-0 z-50 w-full bg-black/90 backdrop-blur-md border-b border-zinc-900">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-4">
           <span className="font-bold tracking-tighter text-lg">

@@ -6,6 +6,7 @@ import NextImage from "next/image";
 import { motion } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import { Navbar } from "../components/NavBar";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 
 type Collection = {
   id: number;
@@ -49,7 +50,8 @@ export default function WorkPage() {
       <Navbar currentPath={"/series"}/>
 
       <main className="container mx-auto max-w-7xl px-6 pt-32 pb-24 relative z-10">
-        
+                    <AnimatedGridPattern />
+
         <header className="mb-24 border-b border-zinc-900 pb-12">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
