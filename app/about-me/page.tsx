@@ -51,12 +51,10 @@ export default function Home() {
             className="mb-6 items-center gap-2 w-2xl"
           >
             <p>
-              Hi, I&apos;m a current student at Boston University studying
-              Computer Science and Economics. I love creating fun silly websites
-              that I can express myself in. I love learning and improving on
-              things that Im working on. While creating this website my main
-              idea was to create an full stack application that I can show off
-              my newly improved skills. If you wanna see my other works
+              Hi! I&apos;m a Computer Science and Economics student at Boston University who loves building fun, slightly silly websites as a way to express myself. 
+              I&apos;m always excited to learn new things and improve the projects I&apos;m working on. 
+              I built this site as a full-stack application to show off my growing skill set. 
+              If you want to check out some of my other work, take a look around!
             </p>
           </motion.div>
           <Highlighter action="highlight" color="#757500">
