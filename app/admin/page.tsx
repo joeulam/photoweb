@@ -6,6 +6,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { motion } from "framer-motion";
 import { BrutalistInput, BrutalistButton } from "./dashboard/components/BrutalistUI";
+import { GridPattern } from "@/components/ui/grid-pattern";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -33,7 +34,8 @@ export default function AdminLogin() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-black text-white selection:bg-yellow-400 selection:text-black relative">
-      
+        <GridPattern />
+
       <div className="fixed top-8 left-8 z-50">
         <span className="font-bold tracking-tighter text-lg">JL<span className="text-yellow-400">.ADMIN</span></span>
       </div>
@@ -52,7 +54,7 @@ export default function AdminLogin() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="z-10 w-full max-w-100 px-6"
+        className="z-10 w-full max-w-100 p-6 backdrop-blur-2xl rounded-2xl"
       >
         <div className="mb-8 border-l-2 border-yellow-400 pl-4">
           <h1 className="text-3xl font-bold tracking-tighter text-white">ACCESS</h1>

@@ -9,6 +9,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import { Navbar } from "./components/NavBar";
 import { LensCursor } from "./components/LensCursor";
+import { FlickeringGrid } from "@/components/ui/flickering-grid";
+import { GridPattern } from "@/components/ui/grid-pattern";
+
 
 type Photo = {
   id: number;
@@ -58,8 +61,9 @@ export default function Home() {
   }, [supabase]);
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-yellow-400 selection:text-black relative overflow-x-hidden cursor-none">
+    <div className="min-h-screen bg-black text-white selection:bg-yellow-400 selection:text-black relative overflow-x-hidden">
       <FilmGrainOverlay />
+              <GridPattern />
 
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-size-[24px_24px]"></div>
@@ -79,9 +83,10 @@ export default function Home() {
       </div>
 
       <Navbar currentPath={"/"} />
-      <LensCursor />
+      {/* <LensCursor /> */}
+
       <main className="container mx-auto max-w-7xl px-6 pb-24 pt-32 relative z-10">
-        <header className="mb-24 flex flex-col gap-8 md:flex-row md:items-end md:justify-between border-b border-zinc-800/50 pb-12 backdrop-blur-sm">
+        <header className="mb-24 flex flex-col gap-8 md:flex-row md:items-end md:justify-between border-b border-zinc-800/50 pb-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -157,7 +162,7 @@ export default function Home() {
           )}
         </AnimatePresence>
 
-        <footer className="mt-32 border-t border-zinc-800 py-12 flex justify-between items-end text-zinc-600">
+        <footer className="-mb-32 mt-32 -ml-6 border-t border-zinc-800 p-12 flex justify-between items-end text-zinc-600 w-screen backdrop-blur-md">
           <div>
             <p className="font-bold text-white tracking-tighter">JL.PHOTO</p>
             <p className="text-xs mt-2">Visual database & portfolio.</p>
